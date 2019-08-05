@@ -3,4 +3,5 @@ from rest_framework.views import APIView
 # Create your views here.
 
 class LoginView(APIView):
-    pass
+    def post(self, request):
+        
