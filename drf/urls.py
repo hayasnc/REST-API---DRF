@@ -22,6 +22,7 @@ urlpatterns = [
     url('employee/', include('employee.urls')),
     url('api/v1/', include('employee.api_urls')),
     url('api/v2/', include('polls.api_urls')),
+    url('api/v3/', include('polls.api_urls_v3')),
     url(r'^polls/', include('polls.urls')),
 
    # url(r'api/v1/auth/login/', LoginView.as_view()),

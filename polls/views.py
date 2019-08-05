@@ -8,6 +8,24 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Choice, Question
 from polls.serializer import QuestionSerializer
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class pollAPIView(APIView):
+    def get(self, request):
+        questions = Question.objects.all()
+        serializer = QuestionSerializer(questions, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data = request.data
+        serializer = QuestionSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        else:
+            return JsonResponse(serializer.errors, status=400)
+
 @csrf_exempt
 def poll(request):
     if  (request.method == 'POST'):
