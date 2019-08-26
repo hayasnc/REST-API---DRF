@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'employee',
     'polls',
+    'chat',
+    'channels',
     'rest_framework',
 ]
 
@@ -80,6 +82,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'drf.wsgi.application'
 
+ASGI_APPLICATION = 'drf.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
