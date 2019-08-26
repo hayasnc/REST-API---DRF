@@ -1,12 +1,22 @@
-<h1>{{ question.question_text }}</h1>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!-- Image and text -->
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="../../polls/">
+    Poll Application
+  </a>
+</nav>
+<h1>   Question: {{ question.question_text }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'polls:voting' question.id %}" method="post">
 {% csrf_token %}
+<div class="form-check">
 {% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+    <input  class="form-check-label" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <label class="form-check-label" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
 {% endfor %}
-<input type="submit" value="Vote" />
+
+<input type="submit" value="Vote" class="btn btn-primary"/>
+</div>
 </form>
