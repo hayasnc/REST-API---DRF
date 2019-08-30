@@ -7,7 +7,7 @@ import datetime
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published', auto_now_add=True)
+    pub_date = models.DateTimeField('date published', default=timezone.now)
 
     status = models.CharField(default='inactive', max_length=10)
     def __str__(self):

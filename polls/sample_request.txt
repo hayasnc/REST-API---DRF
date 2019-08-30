@@ -1,0 +1,20 @@
+   
+   
+POST http://127.0.0.1:8000/api/v3/polls/questions   
+GET   
+
+
+payload
+    {
+        "question_text": "Who is the most likable character in GOT?",
+        "status": "inactive",
+        "choice_set": [
+            {
+                "choice_text": "Jon Snow"
+            },
+            {
+                "choice_text": "Arya Stark"
+
+            }
+        ]
+    }
