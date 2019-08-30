@@ -8,7 +8,7 @@ class ChoiceSerializer(serializers.ModelSerializer):
         fields = ('choice_text', 'votes')
 
 class QuestionSerializer(serializers.ModelSerializer):
-    choice_set = ChoiceSerializer(many=True)
+    choice_set = ChoiceSerializer(many=True, required=True)
     class Meta:
         model = Question
         fields = ('pub_date', 'question_text', 'status', 'choice_set')
@@ -21,3 +21,11 @@ class QuestionSerializer(serializers.ModelSerializer):
             each['question'] = question
         choices = choice_set_serializer.create(choice_validated_data)
         return question
+
+    def validate(self, data):
+        validated_data = super(QuestionSerializer, self).validate(data)
+        choice_validated_data = validated_data['choice_set']
+        print(len(choice_validated_data))
+        if len(choice_validated_data) != 4:
+            raise serializers.ValidationError('There should be 4 Choices')
+        return validated_data
