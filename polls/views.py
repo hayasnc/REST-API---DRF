@@ -1,15 +1,17 @@
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
-from .models import Question
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User, Group
+
 from django.views import generic
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from .models import Choice, Question
-from polls.serializer import QuestionSerializer
+from polls.serializer import QuestionSerializer, UserSerializer, GroupSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import viewsets
 
 class pollAPIView(APIView):
     def get(self, request):
@@ -25,6 +27,21 @@ class pollAPIView(APIView):
             return Response(serializer.data, status=201)
         else:
             return JsonResponse(serializer.errors, status=400)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
 
 @csrf_exempt
 def poll(request):

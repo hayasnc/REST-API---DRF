@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'employee',
     'polls',
     'rest_framework',
+    'snippets'
 ]
 
 MIDDLEWARE = [
