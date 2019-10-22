@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'employee',
     'polls',
     'rest_framework',
+    'image_processor',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +81,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'drf.wsgi.application'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

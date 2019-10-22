@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import url, include
+from django.conf import settings # new
+from django.conf.urls.static import static # new
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,6 +26,9 @@ urlpatterns = [
     url('api/v1/', include('employee.api_urls')),
     url('api/v2/', include('polls.api_urls')),
     url('api/v3/', include('polls.api_urls_v3')),
-
+    url('image/', include('image_processor.urls')), # new
    # url(r'api/v1/auth/login/', LoginView.as_view()),
 ]
+
+if settings.DEBUG: # new
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

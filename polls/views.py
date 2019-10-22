@@ -52,7 +52,7 @@ def poll(request):
 
 @csrf_exempt
 def poll_details(request, nana_id):
-    print id
+    print (id)
     try:
         instance = Question.objects.get(id=nana_id)
     except Question.DoesNotExist as e:
