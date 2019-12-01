@@ -7,8 +7,10 @@ class ChoiceSerializer(serializers.ModelSerializer):
         model = Choice
         fields = ('choice_text', 'votes')
 
+
 class QuestionSerializer(serializers.ModelSerializer):
     choice_set = ChoiceSerializer(many=True, required=True)
+
     class Meta:
         model = Question
         fields = ('pub_date', 'question_text', 'status', 'choice_set')
@@ -19,7 +21,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         choice_set_serializer = self.fields['choice_set']
         for each in choice_validated_data:
             each['question'] = question
-        choices = choice_set_serializer.create(choice_validated_data)
+        choice_set_serializer.create(choice_validated_data)
         return question
 
     def validate(self, data):

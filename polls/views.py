@@ -1,15 +1,16 @@
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .models import Question
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
-from .models import Choice, Question
+from .models import Choice
 from polls.serializer import QuestionSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
 
 class pollAPIView(APIView):
     def get(self, request):
@@ -26,38 +27,33 @@ class pollAPIView(APIView):
         else:
             return JsonResponse(serializer.errors, status=400)
 
+
 @csrf_exempt
 def poll(request):
-    if  (request.method == 'POST'):
+    if (request.method == 'POST'):
         # convert post data to json by jsonParser from rest_framework
-        print ('sasd')
         json_parser = JSONParser()
         data = json_parser.parse(request)
-        print ('&(*&(*&(*&', data)
         serializer = QuestionSerializer(data=data)
-        print ('bbbb')
 
         if serializer.is_valid():
-            print ('uu')
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         else:
-            print ('jhvhv')
             return JsonResponse(serializer.errors, status=400)
-    else:    
-        print ('as')
+    else:
         questions = Question.objects.all()
         serializer = QuestionSerializer(questions, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+
 @csrf_exempt
 def poll_details(request, nana_id):
-    print (id)
     try:
         instance = Question.objects.get(id=nana_id)
-    except Question.DoesNotExist as e:
-        return JsonResponse({"error":"Doesn't exist"}, status=404)
-    if  (request.method == 'GET'):
+    except Question.DoesNotExist:
+        return JsonResponse({"error": "Doesn't exist"}, status=404)
+    if(request.method == 'GET'):
         serializer = QuestionSerializer(instance)
         return JsonResponse(serializer.data)
 
@@ -68,11 +64,12 @@ def poll_details(request, nana_id):
     #     else:
     #         print ('jhvhv')
     #         return JsonResponse(serializer.errors, status=400)
-    # else:    
+    # else:
     #     print ('as')
     #     questions = Question.objects.all()
     #     serializer = QuestionSerializer(questions, many=True)
     #     return JsonResponse(serializer.data, safe=False)
+
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -137,4 +134,5 @@ def voting(request, question_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        return HttpResponseRedirect(reverse('polls:results',
+                                            args=(question.id,)))
